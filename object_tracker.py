@@ -194,7 +194,7 @@ def main(_argv):
                     if(not isInsideStrip(cx, cy, width, height, margin, 10)):
                         outflow.add(track.track_id)
 
-        if frame_count % 10 == 0:
+        if frame_count % 30 == 0:
             outflow_count = outflow.__len__()
             inflow_count = inflow.__len__()
             outflow.clear()

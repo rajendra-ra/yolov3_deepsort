@@ -14,7 +14,11 @@ class TrackState:
     Tentative = 1
     Confirmed = 2
     Deleted = 3
-
+class TrackLocation:
+    Undefined = 0
+    In = 1
+    Out = 2
+    Transient = 3
 
 class Track:
     """
@@ -60,7 +64,7 @@ class Track:
     features : List[ndarray]
         A cache of features. On each measurement update, the associated feature
         vector is added to this list.
-
+    location : TrackLocation
     """
 
     def __init__(self, mean, covariance, track_id, n_init, max_age,
@@ -73,6 +77,7 @@ class Track:
         self.time_since_update = 0
 
         self.state = TrackState.Tentative
+        self.location = TrackLocation.Undefined
         self.features = []
         if feature is not None:
             self.features.append(feature)
@@ -168,3 +173,11 @@ class Track:
     def is_deleted(self):
         """Returns True if this track is dead and should be deleted."""
         return self.state == TrackState.Deleted
+    def is_inside(self):
+        return self.location == TrackLocation.In
+    def is_outside(self):
+        return self.location == TrackLocation.Out
+    def is_transient(self):
+        return self.location == TrackLocation.Transient
+    def is_undefined(self):
+        return self.location == TrackLocation.Undefined
